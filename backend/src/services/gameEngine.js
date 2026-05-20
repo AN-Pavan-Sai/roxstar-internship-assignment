@@ -83,11 +83,11 @@ async function startSpinWheelLogic(wheelId) {
   }, 7000);
 }
 
-async function abortAndRefundWheel(wheelId){
+async function abortAndRefundWheel(wheelId) {
   await prisma.$transaction(async (tx) => {
-    const wheel  = await tx.spinWheel.findUnique({
-      where: {id: wheelId},
-      include: {participants: true}
+    const wheel = await tx.spinWheel.findUnique({
+      where: { id: wheelId },
+      include: { participants: true }
     })
 
     if (!wheel || wheel.status !== 'INITIALIZED') return;
@@ -107,7 +107,42 @@ async function abortAndRefundWheel(wheelId){
       data: { status: 'ABORTED' }
     });
 
-    ioInstance.to(wheelId).emit('game_aborted', { message: "Not enough participants. Game aborted, coins refunded." });  
+    ioInstance.to(wheelId).emit('game_aborted', { message: "Not enough participants. Game aborted, coins refunded." });
 
   })
+}
+
+async function finalizeWheelPayout(wheelId, winnerUserId) {
+  await prisma.$transaction(async (tx) => {
+    const wheel = await tx.spinWheel.findUnique({ where: { id: wheelId } });
+    if (wheel.status !== 'ACTIVE') return;
+
+    // Credit accumulated winner pool 
+    await tx.user.update({
+      where: { id: winnerUserId },
+      data: { coins: { increment: wheel.winnerPool } }
+    });
+    await tx.transaction.create({
+      data: { userId: winnerUserId, amount: wheel.winnerPool, type: 'WINNINGS', referenceId: wheelId }
+    });
+
+    // Credit accumulated owner/admin pool 
+    const admin = await tx.user.findFirst({ where: { role: 'ADMIN' } });
+    if (admin) {
+      await tx.user.update({
+        where: { id: admin.id },
+        data: { coins: { increment: wheel.adminPool } }
+      });
+      await tx.transaction.create({
+        data: { userId: admin.id, amount: wheel.adminPool, type: 'ADMIN_REWARD', referenceId: wheelId }
+      });
+    }
+
+    await tx.spinWheel.update({
+      where: { id: wheelId },
+      data: { status: 'COMPLETED', winnerId: winnerUserId }
+    });
+  });
+
+  ioInstance.to(wheelId).emit('game_over', { winnerId: winnerUserId });
 }
