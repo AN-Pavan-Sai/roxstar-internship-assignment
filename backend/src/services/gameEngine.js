@@ -82,3 +82,32 @@ async function startSpinWheelLogic(wheelId) {
     }
   }, 7000);
 }
+
+async function abortAndRefundWheel(wheelId){
+  await prisma.$transaction(async (tx) => {
+    const wheel  = await tx.spinWheel.findUnique({
+      where: {id: wheelId},
+      include: {participants: true}
+    })
+
+    if (!wheel || wheel.status !== 'INITIALIZED') return;
+
+    for (const p of wheel.participants) {
+      await tx.user.update({
+        where: { id: p.userId },
+        data: { coins: { increment: wheel.entryFee } }
+      });
+      await tx.transaction.create({
+        data: { userId: p.userId, amount: wheel.entryFee, type: 'REFUND', referenceId: wheelId }
+      });
+    }
+
+    await tx.spinWheel.update({
+      where: { id: wheelId },
+      data: { status: 'ABORTED' }
+    });
+
+    ioInstance.to(wheelId).emit('game_aborted', { message: "Not enough participants. Game aborted, coins refunded." });  
+
+  })
+}
