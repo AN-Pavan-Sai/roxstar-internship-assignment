@@ -146,3 +146,5 @@ async function finalizeWheelPayout(wheelId, winnerUserId) {
 
   ioInstance.to(wheelId).emit('game_over', { winnerId: winnerUserId });
 }
+
+module.exports = { handleAutoStartCountdown, startSpinWheelLogic, setIoInstance };
