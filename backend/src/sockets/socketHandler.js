@@ -1,9 +1,16 @@
 function handleSocketConnections(io) {
-    io.on('connection', (socket) => {
-      socket.on('join_room', ({ wheelId }) => {
-        socket.join(wheelId);
-      });
+  io.on('connection', (socket) => {
+    console.log(`Socket connected: ${socket.id}`);
+
+    socket.on('join_room', ({ wheelId }) => {
+      socket.join(wheelId);
+      console.log(`Socket ${socket.id} joined room ${wheelId}`);
     });
-  }
-  
-  module.exports = { handleSocketConnections };
+
+    socket.on('disconnect', () => {
+      console.log(`Socket disconnected: ${socket.id}`);
+    });
+  });
+}
+
+module.exports = { handleSocketConnections };
