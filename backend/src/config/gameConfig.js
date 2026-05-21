@@ -1,5 +1,5 @@
-const {PrismaClient} = require('@prisma/client')
-const prisma = new PrismaClient()
+// const {PrismaClient} = require('@prisma/client')
+const prisma = require('../config/prisma');
 
 // this function helps to fetch the data from the database and converts it into the object with the key as the config name and value as the config value.
 async function getGameConfig() {

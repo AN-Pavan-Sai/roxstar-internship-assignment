@@ -1,5 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+// const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/prisma');
 const { getGameConfig } = require('../config/gameConfig');
 const { handleAutoStartCountdown, startSpinWheelLogic } = require('../services/gameEngine');
 

@@ -1,5 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+// const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/prisma');
 
 const activeTimers = new Map();
 let ioInstance = null;
