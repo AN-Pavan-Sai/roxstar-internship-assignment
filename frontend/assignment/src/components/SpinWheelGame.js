@@ -16,7 +16,7 @@ export default function SpinWheelGame({ userId, isAdmin }) {
 
     socket.on('user_joined', (data) => {
       setWinnerPool(data.currentPool);
-      setLogs((prev) => [...prev, `👤 User ${data.userId} joined the room.`]);
+      setLogs((prev) => [...prev, `User ${data.userId} joined the room.`]);
     });
 
     socket.on('game_started', (data) => {
@@ -85,7 +85,7 @@ export default function SpinWheelGame({ userId, isAdmin }) {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '500px' }}>
-      <h3>🎡 Spin Wheel Matchroom</h3>
+      <h3>Spin Wheel Matchroom</h3>
       <p>Room ID: <code>{wheelId || 'None'}</code></p>
       <p>Your Status: <strong>{status}</strong></p>
       <h4>Active Winner Pool: {winnerPool} Coins</h4>
