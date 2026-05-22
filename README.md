@@ -152,6 +152,16 @@ npm run dev
 
 Frontend runs on **http://localhost:5173**
 
+### Default Credentials
+
+The database seed creates one admin account:
+
+| Role | Username | Password | Starting Coins |
+|------|----------|----------|----------------|
+| Admin | `admin_star` | *(none — username only)* | 5,000 |
+
+Sign in with username **admin_star** to access admin features (create game rooms, force-start games). Regular users can create their own accounts via the "Create Account" tab.
+
 ## Changes Made
 
 ### Backend Bug Fixes
