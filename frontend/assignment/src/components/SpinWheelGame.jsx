@@ -3,8 +3,8 @@ import io from 'socket.io-client';
 import SpinWheelVisual from './SpinWheelVisual';
 import ParticipantList from './ParticipantList';
 
-const API = 'http://localhost:3001/api';
-const socket = io('http://localhost:3001');
+const API = 'https://roxstar-backend.onrender.com/api';
+const socket = io('https://roxstar-backend.onrender.com')
 
 export default function SpinWheelGame({ user, onCoinsUpdate }) {
   const [wheelId, setWheelId] = useState('');
@@ -451,8 +451,8 @@ export default function SpinWheelGame({ user, onCoinsUpdate }) {
                 <div className="card-title">Spin Wheel Arena</div>
                 <div className="card-subtitle">
                   {status === 'INITIALIZED' ? 'Waiting for players...' :
-                   status === 'ACTIVE' ? 'Game in progress!' :
-                   status === 'COMPLETED' ? 'Game finished!' : 'Loading...'}
+                    status === 'ACTIVE' ? 'Game in progress!' :
+                      status === 'COMPLETED' ? 'Game finished!' : 'Loading...'}
                 </div>
               </div>
               <span className={`status-badge status-${status.toLowerCase()}`}>

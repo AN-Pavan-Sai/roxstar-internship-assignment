@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API = 'http://localhost:3001/api';
+const API = 'https://roxstar-backend.onrender.com/api'
 
 export default function LoginScreen({ onLogin }) {
   const [mode, setMode] = useState('login');

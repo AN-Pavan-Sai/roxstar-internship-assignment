@@ -13,7 +13,7 @@ export default function App() {
         const parsed = JSON.parse(saved);
         setUser(parsed);
         // Refresh user data from server
-        fetch(`http://localhost:3001/api/users/${parsed.id}`)
+        fetch(`https://roxstar-backend.onrender.com/api/users/${parsed.id}`)
           .then(r => r.json())
           .then(data => {
             if (data && data.id) {
