@@ -95,6 +95,29 @@ export default function LoginScreen({ onLogin }) {
               You'll receive 1,000 coins to start playing!
             </p>
           )}
+
+          {mode === 'login' && (
+            <div style={{
+              textAlign: 'center',
+              fontSize: '0.78rem',
+              color: 'var(--text-muted)',
+              padding: '12px 16px',
+              background: 'rgba(139, 92, 246, 0.06)',
+              border: '1px solid rgba(139, 92, 246, 0.12)',
+              borderRadius: 'var(--radius-sm)',
+              lineHeight: 1.6
+            }}>
+              <span style={{ fontWeight: 600, color: 'var(--accent-purple-light)' }}>Admin?</span>{' '}
+              Sign in with username <code style={{
+                background: 'var(--bg-input)',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                color: 'var(--accent-gold-light)',
+                fontFamily: 'monospace',
+                fontSize: '0.8rem'
+              }}>admin_star</code> to manage games.
+            </div>
+          )}
         </form>
       </div>
     </div>
