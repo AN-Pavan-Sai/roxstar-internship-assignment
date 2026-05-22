@@ -13,7 +13,7 @@ export default function App() {
         const parsed = JSON.parse(saved);
         setUser(parsed);
         // Refresh user data from server
-        fetch(`https://roxstar-backend.onrender.com/api/users/${parsed.id}`)
+        fetch(`${import.meta.env.VITE_API_URL}/api/users/${parsed.id}`)
           .then(r => r.json())
           .then(data => {
             if (data && data.id) {

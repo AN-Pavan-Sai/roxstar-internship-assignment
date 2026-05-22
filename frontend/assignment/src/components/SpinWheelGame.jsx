@@ -3,8 +3,8 @@ import io from 'socket.io-client';
 import SpinWheelVisual from './SpinWheelVisual';
 import ParticipantList from './ParticipantList';
 
-const API = 'https://roxstar-backend.onrender.com/api';
-const socket = io('https://roxstar-backend.onrender.com')
+const API = `${import.meta.env.VITE_API_URL}/api`;
+const socket = io(import.meta.env.VITE_API_URL);
 
 export default function SpinWheelGame({ user, onCoinsUpdate }) {
   const [wheelId, setWheelId] = useState('');

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API = 'https://roxstar-backend.onrender.com/api'
+const API = `${import.meta.env.VITE_API_URL}/api`;
 
 export default function LoginScreen({ onLogin }) {
   const [mode, setMode] = useState('login');
